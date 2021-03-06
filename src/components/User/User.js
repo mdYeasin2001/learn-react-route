@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const User = () => {
     const [users, setUsers] = useState([]);
@@ -7,7 +7,11 @@ const User = () => {
         fetch('https://jsonplaceholder.typicode.com/users')
         .then(res => res.json())
         .then(data => setUsers(data))
-    }, [])
+    }, []);
+    const history = useHistory();
+    const handleClick = (id) => {
+        history.push(`/users/${id}`);
+    }
     const userStyle = {
         border: '1px solid gray',
         padding: '10px',
@@ -21,6 +25,7 @@ const User = () => {
                 <h1>Name: {user.name}</h1>
                 <p>E-mail: {user.email}</p>
                 <Link to={`/users/${user.id}`}><button>More Details</button></Link>
+                <button onClick={() =>handleClick(user.id)}>Know About Me</button>
             </div>)}
         </div>
     );
